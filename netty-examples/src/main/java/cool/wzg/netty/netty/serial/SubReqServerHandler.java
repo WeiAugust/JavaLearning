@@ -16,7 +16,7 @@ public class SubReqServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        SubscribeReq req = (SubscribeReq) msg;
+        SubscribeReqProto.SubscribeReq req = (SubscribeReqProto.SubscribeReq) msg;
         if ("wzg".equalsIgnoreCase(req.getUserName())) {
             System.out.println("Service accept client subscribe req: [" + req.toString()+"]");
             ctx.writeAndFlush(resp(req.getSubReqID()));
@@ -24,16 +24,18 @@ public class SubReqServerHandler extends ChannelInboundHandlerAdapter {
 
     }
 
-    private Object resp(int subReqID) {
-        SubscribeResp resp = new SubscribeResp();
-        resp.setSubReqID(subReqID);
-        resp.setRespCode(0);
-        resp.setDesc("netty book order succeed, 3 days later, sent to the designated address");
-        return resp;
+    private SubscribeRespProto.SubscribeResp resp(int subReqID) {
+        SubscribeRespProto.SubscribeResp.Builder builder = SubscribeRespProto.SubscribeResp.newBuilder();
+
+        builder.setSubReqID(subReqID);
+        builder.setRespCode(0);
+        builder.setDesc("netty book order succeed, 3 days later, sent to the designated address");
+        return builder.build();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
         ctx.close();
     }
 }

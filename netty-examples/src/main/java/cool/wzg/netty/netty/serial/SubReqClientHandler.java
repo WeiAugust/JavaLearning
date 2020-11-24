@@ -16,20 +16,17 @@ public class SubReqClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        for (int i = 0; i < 10; i++) {
-            ctx.write(subReq(i));
-        }
-        ctx.flush();
+            ctx.writeAndFlush(subReq(1));
     }
 
-    private Object subReq(int i) {
-        SubscribeReq req = new SubscribeReq();
+    private SubscribeReqProto.SubscribeReq subReq(int i) {
+        SubscribeReqProto.SubscribeReq.Builder req = SubscribeReqProto.SubscribeReq.newBuilder();
         req.setAddress("北京");
         req.setPhoneNumber("12345");
         req.setProductName("netty");
         req.setSubReqID(i);
         req.setUserName("wzg");
-        return req;
+        return req.build();
     }
 
     @Override

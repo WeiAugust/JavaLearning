@@ -9,9 +9,9 @@ import java.io.Serializable;
  * @Date 2020/11/24 9:30
  * @Version 1.0
  **/
-public class SubscribeReq implements Serializable {
+public class SubscribeReq {
 
-    private static final long serialVersionUID = 1L;
+//    private static final long serialVersionUID = 1L;
 
     private int subReqID;
 
